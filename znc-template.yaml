@@ -75,7 +75,7 @@ objects:
     source:
       type: Git
       git:
-        uri: https://github.com/rnc/znc-openshift.git
+        uri: https://github.com/jonathanchristison/znc-openshift.git
     triggers:
     - type: ImageChange
     # tags:
