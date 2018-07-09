@@ -13,6 +13,9 @@ RUN PKGS='redhat-rpm-config znc-devel gcc-c++' && \
     dnf remove -y $PKGS && \
     dnf clean all
 
+#Overide nhripps run so we can also run tcpdump
+RUN yum install -y tcpdump
+CMD tcpdump -w $ZNC_DATADIR/`date -I`.pcap;
 USER 1001
 
 ENTRYPOINT ["/opt/znc-run/znc_runner.sh"]
