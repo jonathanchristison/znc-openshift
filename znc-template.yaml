@@ -136,6 +136,8 @@ objects:
           ports:
           - containerPort: 6697
             protocol: TCP
+          - containerPort: 6698
+            protocol: TCP
           resources: {}
           terminationMessagePath: /dev/termination-log
         dnsPolicy: ClusterFirst
