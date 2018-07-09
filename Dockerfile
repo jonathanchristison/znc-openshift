@@ -14,5 +14,5 @@ RUN PKGS='redhat-rpm-config znc-devel gcc-c++' && \
     dnf clean all
 
 USER 1001
-
+EXPOSE 6698
 ENTRYPOINT ["/opt/znc-run/znc_runner.sh"]
