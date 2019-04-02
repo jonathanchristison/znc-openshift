@@ -1,7 +1,11 @@
-FROM nhripps/znc-cluster-app
-MAINTAINER Nick Cross
+FROM fedora
+MAINTAINER Jonathan Christison
 
 USER root
+#Stolen from https://github.com/nhr/znc-cluster-app/blob/master/Dockerfile
+RUN dnf install -y procps-ng expect znc --allowerasing && mkdir /opt/znc-env && mkdir /opt/znc-run
+COPY znc_* /opt/znc-run/
+RUN chown -R 1001:0 /opt/znc-env /opt/znc-run && chmod -R ug+rwx /opt/znc-env /opt/znc-run
 
 # Add our own awaynick module. Has the helpful side-benefit of
 # upgrading ZNC to 1.6.5
