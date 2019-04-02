@@ -1,4 +1,4 @@
-FROM fedora
+FROM fedora:28
 MAINTAINER Jonathan Christison
 
 USER root
