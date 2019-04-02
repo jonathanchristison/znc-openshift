@@ -6,7 +6,7 @@ metadata:
 #
 # TODO:
 # Triggers for autobuild (so we don't do oc start-build znc-app )
-# GlusterFS
+#
 
 parameters:
   - name: ZNC_NAME
@@ -30,10 +30,10 @@ objects:
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    annotations:
-      pv.kubernetes.io/bind-completed: "yes"
-      pv.kubernetes.io/bound-by-controller: "yes"
-    creationTimestamp: null
+    # annotations:
+    #   pv.kubernetes.io/bind-completed: "yes"
+    #   pv.kubernetes.io/bound-by-controller: "yes"
+    # creationTimestamp: null
     name: znc-pvc-storage
   spec:
     accessModes:
@@ -41,7 +41,8 @@ objects:
     resources:
       requests:
         storage: 500M
-    volumeName: znc-pv
+    # https://docs.openshift.com/container-platform/3.3/dev_guide/persistent_volumes.html#persistent-volumes-volumes-and-claim-prebinding
+    # volumeName: znc-pv
 
 # defines a wrapper on top of our newly built image
 # (this is used to trigger a deployment if the image changes = has been rebuilt)
@@ -54,10 +55,7 @@ objects:
 
 # defines the build configuration
 - apiVersion: v1
-  # TODO Should this be buildconfig or imagestream
   kind: BuildConfig
-#  kind: ImageStream
-# TODO: Do I need the metadata labels?
   metadata:
     labels:
       app: ${APPLICATION_NAME}
@@ -78,11 +76,6 @@ objects:
         uri: https://github.com/rnc/znc-openshift.git
     triggers:
     - type: ImageChange
-    # tags:
-    # - from:
-    #     kind: DockerImage
-    #     name: nhripps/${APPLICATION_NAME}
-    #   name: latest
 
 # defines the deployment configuration
 - apiVersion: v1
@@ -161,8 +154,6 @@ objects:
         from:
           kind: ImageStreamTag
           name: ${APPLICATION_NAME}:latest
-          # TODO need this namespace??
-          # namespace: myproject
 - apiVersion: v1
   kind: Service
   metadata:
@@ -189,6 +180,7 @@ objects:
   metadata:
     annotations:
       openshift.io/host.generated: "true"
+      itpaas_idling: "false"
     creationTimestamp: null
     labels:
       app: ${APPLICATION_NAME}
